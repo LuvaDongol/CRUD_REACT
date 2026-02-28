@@ -5,6 +5,7 @@ import AddGroceryForm from "./components/AddGroceryForm";
 import SearchBar from "./components/SearchBar";
 import GroceryList from "./components/GroceryList";
 import ActionButtons from "./components/ActionButtons";
+import Summary from "./components/Summary";
 
 // Load items from localStorage
 const loadFromStorage = () => {
@@ -130,6 +131,7 @@ function App() {
       <Header />
       <div className="container">
         <AddGroceryForm onAdd={addItem} />
+        <Summary items={items} />
         <SearchBar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
