@@ -543,3 +543,85 @@ body {
   font-weight: 700;
   color: #2d3748;
 }
+
+/* ===== Responsive Design ===== */
+@media (max-width: 600px) {
+  .app-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .form-row {
+    flex-direction: column;
+  }
+
+  .form-quantity {
+    width: 100%;
+  }
+
+  .search-row {
+    flex-direction: column;
+  }
+
+  .filter-row {
+    flex-direction: column;
+  }
+
+  .grocery-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .item-actions {
+    margin-left: 0;
+    align-self: flex-end;
+  }
+
+  .item-content {
+    flex-wrap: wrap;
+  }
+
+  .summary-stats {
+    gap: 0.25rem;
+  }
+
+  .stat {
+    min-width: 60px;
+  }
+
+  .stat-number {
+    font-size: 1.2rem;
+  }
+
+  .edit-form {
+    flex-direction: column;
+  }
+
+  .edit-input,
+  .edit-quantity,
+  .edit-category {
+    width: 100%;
+  }
+
+  .edit-actions {
+    align-self: flex-end;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .app-header {
+    padding: 1.5rem 0.5rem 0.75rem;
+  }
+
+  .app-header h1 {
+    font-size: 1.5rem;
+  }
+}
