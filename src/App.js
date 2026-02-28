@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import Header from "./components/Header";
 import AddGroceryForm from "./components/AddGroceryForm";
+import SearchBar from "./components/SearchBar";
 import GroceryList from "./components/GroceryList";
 
 // Load items from localStorage
@@ -21,6 +22,9 @@ const saveToStorage = (items) => {
 
 function App() {
   const [items, setItems] = useState(loadFromStorage);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterCategory, setFilterCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("newest");
 
   // Persist to localStorage whenever items change
   useEffect(() => {
@@ -61,13 +65,66 @@ function App() {
     );
   }, []);
 
+  // Filter and sort items
+  const getFilteredItems = () => {
+    let filtered = [...items];
+
+    // Search filter
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(term)
+      );
+    }
+
+    // Category filter
+    if (filterCategory !== "All") {
+      filtered = filtered.filter((item) => item.category === filterCategory);
+    }
+
+    // Sort
+    switch (sortBy) {
+      case "oldest":
+        filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        break;
+      case "name-asc":
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "name-desc":
+        filtered.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      case "category":
+        filtered.sort((a, b) => a.category.localeCompare(b.category));
+        break;
+      case "quantity":
+        filtered.sort((a, b) => b.quantity - a.quantity);
+        break;
+      case "newest":
+      default:
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+    }
+
+    return filtered;
+  };
+
+  const filteredItems = getFilteredItems();
+
   return (
     <div className="app">
       <Header />
       <div className="container">
         <AddGroceryForm onAdd={addItem} />
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          filterCategory={filterCategory}
+          onFilterChange={setFilterCategory}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+        />
         <GroceryList
-          items={items}
+          items={filteredItems}
           onDelete={deleteItem}
           onToggle={togglePurchased}
           onUpdate={updateItem}
