@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import AddGroceryForm from "./components/AddGroceryForm";
 import SearchBar from "./components/SearchBar";
 import GroceryList from "./components/GroceryList";
+import ActionButtons from "./components/ActionButtons";
 
 // Load items from localStorage
 const loadFromStorage = () => {
@@ -63,6 +64,20 @@ function App() {
         item.id === id ? { ...item, purchased: !item.purchased } : item
       )
     );
+  }, []);
+
+  // Clear all items
+  const clearAll = useCallback(() => {
+    if (window.confirm("Are you sure you want to clear all items?")) {
+      setItems([]);
+    }
+  }, []);
+
+  // Clear purchased items
+  const clearPurchased = useCallback(() => {
+    if (window.confirm("Remove all purchased items?")) {
+      setItems((prev) => prev.filter((item) => !item.purchased));
+    }
   }, []);
 
   // Filter and sort items
@@ -128,6 +143,11 @@ function App() {
           onDelete={deleteItem}
           onToggle={togglePurchased}
           onUpdate={updateItem}
+        />
+        <ActionButtons
+          items={items}
+          onClearAll={clearAll}
+          onClearPurchased={clearPurchased}
         />
       </div>
       <footer className="app-footer">
